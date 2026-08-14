@@ -37,6 +37,18 @@ def from_base64(data: str) -> str:
     return tools.from_base64(data)
 
 
+@mcp.tool()
+def url_encode(text: str) -> str:
+    """URL-encode text (percent-encoding special characters)."""
+    return tools.url_encode(text)
+
+
+@mcp.tool()
+def url_decode(text: str) -> str:
+    """URL-decode a percent-encoded string."""
+    return tools.url_decode(text)
+
+
 def main() -> None:
     """Run the MCP server over stdio."""
     mcp.run()

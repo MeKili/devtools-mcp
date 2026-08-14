@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import base64
 import hashlib
+from urllib.parse import quote, unquote
 
 
 def word_count(text: str) -> int:
@@ -24,3 +25,13 @@ def to_base64(text: str) -> str:
 def from_base64(data: str) -> str:
     """Decode a base64 ``data`` string back to UTF-8 text."""
     return base64.b64decode(data.encode("ascii")).decode("utf-8")
+
+
+def url_encode(text: str) -> str:
+    """URL-encode ``text`` (percent-encoding special characters)."""
+    return quote(text, safe="")
+
+
+def url_decode(text: str) -> str:
+    """URL-decode a percent-encoded ``text`` string."""
+    return unquote(text)
