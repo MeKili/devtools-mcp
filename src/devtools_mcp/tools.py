@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import base64
 import hashlib
+import json
 from urllib.parse import quote, unquote
 
 
@@ -35,3 +36,21 @@ def url_encode(text: str) -> str:
 def url_decode(text: str) -> str:
     """URL-decode a percent-encoded ``text`` string."""
     return unquote(text)
+
+
+def json_minify(data: str) -> str:
+    """Parse JSON and return a minified (compact, no whitespace) version.
+
+    Raises ValueError if the input is not valid JSON.
+    """
+    parsed = json.loads(data)
+    return json.dumps(parsed, separators=(",", ":"), ensure_ascii=False)
+
+
+def json_pretty_print(data: str, indent: int = 2) -> str:
+    """Parse JSON and return a pretty-printed (indented) version.
+
+    Raises ValueError if the input is not valid JSON.
+    """
+    parsed = json.loads(data)
+    return json.dumps(parsed, indent=indent, ensure_ascii=False)

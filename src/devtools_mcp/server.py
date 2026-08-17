@@ -49,6 +49,18 @@ def url_decode(text: str) -> str:
     return tools.url_decode(text)
 
 
+@mcp.tool()
+def json_minify(data: str) -> str:
+    """Minify JSON (remove all unnecessary whitespace)."""
+    return tools.json_minify(data)
+
+
+@mcp.tool()
+def json_pretty_print(data: str, indent: int = 2) -> str:
+    """Pretty-print JSON with indentation (default 2 spaces)."""
+    return tools.json_pretty_print(data, indent=indent)
+
+
 def main() -> None:
     """Run the MCP server over stdio."""
     mcp.run()
