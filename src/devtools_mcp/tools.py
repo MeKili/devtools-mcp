@@ -5,6 +5,8 @@ from __future__ import annotations
 import base64
 import hashlib
 import json
+import re
+import unicodedata
 from urllib.parse import quote, unquote
 
 
@@ -54,3 +56,29 @@ def json_pretty_print(data: str, indent: int = 2) -> str:
     """
     parsed = json.loads(data)
     return json.dumps(parsed, indent=indent, ensure_ascii=False)
+
+
+def slugify(text: str) -> str:
+    """Convert text to a URL-friendly slug.
+
+    Converts to lowercase, removes accents, replaces spaces/underscores with
+    hyphens, removes special characters, and collapses consecutive hyphens.
+    """
+    # Normalize unicode and remove accents
+    normalized = unicodedata.normalize("NFKD", text)
+    text_without_accents = normalized.encode("ascii", "ignore").decode("ascii")
+
+    # Convert to lowercase
+    text_lower = text_without_accents.lower()
+
+    # Replace spaces and underscores with hyphens
+    text_hyphens = re.sub(r"[\s_]+", "-", text_lower)
+
+    # Remove any character that's not alphanumeric or hyphen
+    text_clean = re.sub(r"[^a-z0-9-]", "", text_hyphens)
+
+    # Collapse consecutive hyphens
+    text_collapsed = re.sub(r"-+", "-", text_clean)
+
+    # Strip leading/trailing hyphens
+    return text_collapsed.strip("-")

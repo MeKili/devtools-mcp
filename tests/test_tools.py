@@ -5,6 +5,7 @@ from devtools_mcp.tools import (
     json_minify,
     json_pretty_print,
     sha256_hex,
+    slugify,
     to_base64,
     url_decode,
     url_encode,
@@ -82,3 +83,36 @@ def test_json_pretty_print_invalid() -> None:
 
     with pytest.raises(ValueError):
         json_pretty_print("{invalid}")
+
+
+def test_slugify_basic() -> None:
+    assert slugify("Hello World") == "hello-world"
+    assert slugify("") == ""
+    assert slugify("a") == "a"
+
+
+def test_slugify_special_chars() -> None:
+    assert slugify("foo@bar#baz") == "foobarbaz"
+    assert slugify("hello!!!world") == "helloworld"
+
+
+def test_slugify_spaces_underscores() -> None:
+    assert slugify("hello_world test") == "hello-world-test"
+    assert slugify("  multiple   spaces  ") == "multiple-spaces"
+
+
+def test_slugify_accents() -> None:
+    assert slugify("café") == "cafe"
+    assert slugify("naïve") == "naive"
+    assert slugify("Zürich") == "zurich"
+
+
+def test_slugify_consecutive_hyphens() -> None:
+    assert slugify("foo---bar") == "foo-bar"
+    assert slugify("hello___world") == "hello-world"
+
+
+def test_slugify_leading_trailing() -> None:
+    assert slugify("---hello-world---") == "hello-world"
+    assert slugify("___slug___") == "slug"
+    assert slugify("-test-") == "test"

@@ -61,6 +61,12 @@ def json_pretty_print(data: str, indent: int = 2) -> str:
     return tools.json_pretty_print(data, indent=indent)
 
 
+@mcp.tool()
+def slugify(text: str) -> str:
+    """Convert text to a URL-friendly slug."""
+    return tools.slugify(text)
+
+
 def main() -> None:
     """Run the MCP server over stdio."""
     mcp.run()
