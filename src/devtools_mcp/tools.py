@@ -7,6 +7,7 @@ import hashlib
 import json
 import re
 import unicodedata
+import uuid
 from urllib.parse import quote, unquote
 
 
@@ -82,3 +83,8 @@ def slugify(text: str) -> str:
 
     # Strip leading/trailing hyphens
     return text_collapsed.strip("-")
+
+
+def uuid4_str() -> str:
+    """Generate a random UUID4 string."""
+    return str(uuid.uuid4())

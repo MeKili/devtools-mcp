@@ -67,6 +67,12 @@ def slugify(text: str) -> str:
     return tools.slugify(text)
 
 
+@mcp.tool()
+def uuid4_str() -> str:
+    """Generate a random UUID4 string."""
+    return tools.uuid4_str()
+
+
 def main() -> None:
     """Run the MCP server over stdio."""
     mcp.run()

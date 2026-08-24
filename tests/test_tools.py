@@ -9,6 +9,7 @@ from devtools_mcp.tools import (
     to_base64,
     url_decode,
     url_encode,
+    uuid4_str,
     word_count,
 )
 
@@ -116,3 +117,18 @@ def test_slugify_leading_trailing() -> None:
     assert slugify("---hello-world---") == "hello-world"
     assert slugify("___slug___") == "slug"
     assert slugify("-test-") == "test"
+
+
+def test_uuid4_str_format() -> None:
+    import uuid as stdlib_uuid
+
+    result = uuid4_str()
+    assert isinstance(result, str)
+    parsed = stdlib_uuid.UUID(result)
+    assert parsed.version == 4
+
+
+def test_uuid4_str_uniqueness() -> None:
+    uuid1 = uuid4_str()
+    uuid2 = uuid4_str()
+    assert uuid1 != uuid2
