@@ -88,3 +88,16 @@ def slugify(text: str) -> str:
 def uuid4_str() -> str:
     """Generate a random UUID4 string."""
     return str(uuid.uuid4())
+
+
+def text_to_hex(text: str) -> str:
+    """Convert text (UTF-8) to hexadecimal representation."""
+    return text.encode("utf-8").hex()
+
+
+def hex_to_text(hex_str: str) -> str:
+    """Convert hexadecimal string back to UTF-8 text.
+
+    Raises ValueError if the input is not a valid hex string.
+    """
+    return bytes.fromhex(hex_str).decode("utf-8")

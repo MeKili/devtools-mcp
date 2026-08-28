@@ -73,6 +73,18 @@ def uuid4_str() -> str:
     return tools.uuid4_str()
 
 
+@mcp.tool()
+def text_to_hex(text: str) -> str:
+    """Convert text (UTF-8) to hexadecimal representation."""
+    return tools.text_to_hex(text)
+
+
+@mcp.tool()
+def hex_to_text(hex_str: str) -> str:
+    """Convert hexadecimal string back to UTF-8 text."""
+    return tools.hex_to_text(hex_str)
+
+
 def main() -> None:
     """Run the MCP server over stdio."""
     mcp.run()

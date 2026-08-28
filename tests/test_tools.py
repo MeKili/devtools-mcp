@@ -2,10 +2,12 @@
 
 from devtools_mcp.tools import (
     from_base64,
+    hex_to_text,
     json_minify,
     json_pretty_print,
     sha256_hex,
     slugify,
+    text_to_hex,
     to_base64,
     url_decode,
     url_encode,
@@ -132,3 +134,42 @@ def test_uuid4_str_uniqueness() -> None:
     uuid1 = uuid4_str()
     uuid2 = uuid4_str()
     assert uuid1 != uuid2
+
+
+def test_text_to_hex_basic() -> None:
+    assert text_to_hex("abc") == "616263"
+    assert text_to_hex("hello") == "68656c6c6f"
+    assert text_to_hex("") == ""
+
+
+def test_text_to_hex_utf8() -> None:
+    assert text_to_hex("café") == "636166c3a9"
+    assert text_to_hex("🎉") == "f09f8e89"
+
+
+def test_hex_to_text_basic() -> None:
+    assert hex_to_text("616263") == "abc"
+    assert hex_to_text("68656c6c6f") == "hello"
+    assert hex_to_text("") == ""
+
+
+def test_hex_to_text_utf8() -> None:
+    assert hex_to_text("636166c3a9") == "café"
+    assert hex_to_text("f09f8e89") == "🎉"
+
+
+def test_text_hex_roundtrip() -> None:
+    text = "hello world 123!@#"
+    assert hex_to_text(text_to_hex(text)) == text
+
+
+def test_hex_to_text_utf8_roundtrip() -> None:
+    text = "café naïve Zürich 🎉"
+    assert hex_to_text(text_to_hex(text)) == text
+
+
+def test_hex_to_text_invalid() -> None:
+    import pytest
+
+    with pytest.raises(ValueError):
+        hex_to_text("not_hex_at_all")
