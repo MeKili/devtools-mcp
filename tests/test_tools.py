@@ -5,6 +5,8 @@ from devtools_mcp.tools import (
     hex_to_text,
     json_minify,
     json_pretty_print,
+    md5_hex,
+    sha1_hex,
     sha256_hex,
     slugify,
     text_to_hex,
@@ -19,6 +21,16 @@ from devtools_mcp.tools import (
 def test_word_count() -> None:
     assert word_count("hello world  foo") == 3
     assert word_count("") == 0
+
+
+def test_md5_hex_known_value() -> None:
+    # Known MD5 digest of the string "abc".
+    assert md5_hex("abc") == "900150983cd24fb0d6963f7d28e17f72"
+
+
+def test_sha1_hex_known_value() -> None:
+    # Known SHA-1 digest of the string "abc".
+    assert sha1_hex("abc") == "a9993e364706816aba3e25717850c26c9cd0d89d"
 
 
 def test_sha256_hex_known_value() -> None:

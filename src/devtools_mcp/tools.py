@@ -16,6 +16,16 @@ def word_count(text: str) -> int:
     return len(text.split())
 
 
+def md5_hex(text: str) -> str:
+    """Return the hex MD5 digest of ``text`` (encoded as UTF-8)."""
+    return hashlib.md5(text.encode("utf-8")).hexdigest()
+
+
+def sha1_hex(text: str) -> str:
+    """Return the hex SHA-1 digest of ``text`` (encoded as UTF-8)."""
+    return hashlib.sha1(text.encode("utf-8")).hexdigest()
+
+
 def sha256_hex(text: str) -> str:
     """Return the hex SHA-256 digest of ``text`` (encoded as UTF-8)."""
     return hashlib.sha256(text.encode("utf-8")).hexdigest()

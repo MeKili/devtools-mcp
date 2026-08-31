@@ -20,6 +20,18 @@ def word_count(text: str) -> int:
 
 
 @mcp.tool()
+def md5_hex(text: str) -> str:
+    """Return the hex MD5 digest of ``text``."""
+    return tools.md5_hex(text)
+
+
+@mcp.tool()
+def sha1_hex(text: str) -> str:
+    """Return the hex SHA-1 digest of ``text``."""
+    return tools.sha1_hex(text)
+
+
+@mcp.tool()
 def sha256_hex(text: str) -> str:
     """Return the hex SHA-256 digest of ``text``."""
     return tools.sha256_hex(text)
