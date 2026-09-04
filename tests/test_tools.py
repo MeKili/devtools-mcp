@@ -11,6 +11,9 @@ from devtools_mcp.tools import (
     slugify,
     text_to_hex,
     to_base64,
+    to_camel_case,
+    to_kebab_case,
+    to_snake_case,
     url_decode,
     url_encode,
     uuid4_str,
@@ -185,3 +188,64 @@ def test_hex_to_text_invalid() -> None:
 
     with pytest.raises(ValueError):
         hex_to_text("not_hex_at_all")
+
+
+def test_to_snake_case_camel() -> None:
+    assert to_snake_case("helloWorld") == "hello_world"
+    assert to_snake_case("HelloWorld") == "hello_world"
+    assert to_snake_case("myVariableName") == "my_variable_name"
+
+
+def test_to_snake_case_kebab() -> None:
+    assert to_snake_case("hello-world") == "hello_world"
+    assert to_snake_case("my-variable-name") == "my_variable_name"
+
+
+def test_to_snake_case_spaces() -> None:
+    assert to_snake_case("hello world") == "hello_world"
+    assert to_snake_case("my variable name") == "my_variable_name"
+
+
+def test_to_snake_case_mixed() -> None:
+    assert to_snake_case("HelloWorld-Test") == "hello_world_test"
+    assert to_snake_case("myVar_name-test") == "my_var_name_test"
+
+
+def test_to_camel_case_snake() -> None:
+    assert to_camel_case("hello_world") == "helloWorld"
+    assert to_camel_case("my_variable_name") == "myVariableName"
+
+
+def test_to_camel_case_kebab() -> None:
+    assert to_camel_case("hello-world") == "helloWorld"
+    assert to_camel_case("my-variable-name") == "myVariableName"
+
+
+def test_to_camel_case_spaces() -> None:
+    assert to_camel_case("hello world") == "helloWorld"
+    assert to_camel_case("my variable name") == "myVariableName"
+
+
+def test_to_camel_case_mixed() -> None:
+    assert to_camel_case("hello_world-test") == "helloWorldTest"
+    assert to_camel_case("my-var_name test") == "myVarNameTest"
+
+
+def test_to_kebab_case_snake() -> None:
+    assert to_kebab_case("hello_world") == "hello-world"
+    assert to_kebab_case("my_variable_name") == "my-variable-name"
+
+
+def test_to_kebab_case_camel() -> None:
+    assert to_kebab_case("helloWorld") == "hello-world"
+    assert to_kebab_case("myVariableName") == "my-variable-name"
+
+
+def test_to_kebab_case_spaces() -> None:
+    assert to_kebab_case("hello world") == "hello-world"
+    assert to_kebab_case("my variable name") == "my-variable-name"
+
+
+def test_to_kebab_case_mixed() -> None:
+    assert to_kebab_case("hello_world-test") == "hello-world-test"
+    assert to_kebab_case("myVar_name test") == "my-var-name-test"

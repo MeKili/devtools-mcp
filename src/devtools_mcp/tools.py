@@ -111,3 +111,37 @@ def hex_to_text(hex_str: str) -> str:
     Raises ValueError if the input is not a valid hex string.
     """
     return bytes.fromhex(hex_str).decode("utf-8")
+
+
+def to_snake_case(text: str) -> str:
+    """Convert text to snake_case (lowercase with underscores).
+
+    Handles camelCase, kebab-case, space-separated, and mixed input.
+    """
+    s1 = re.sub("(.)([A-Z][a-z]+)", r"\1_\2", text)
+    s2 = re.sub("([a-z0-9])([A-Z])", r"\1_\2", s1)
+    s3 = re.sub(r"[-\s]+", "_", s2)
+    s4 = re.sub(r"_+", "_", s3)
+    return s4.lower()
+
+
+def to_camel_case(text: str) -> str:
+    """Convert text to camelCase (lowercase first, uppercase after separators).
+
+    Handles snake_case, kebab-case, space-separated, and mixed input.
+    """
+    components = re.split(r"[-_\s]+", text)
+    if not components:
+        return ""
+    return components[0].lower() + "".join(x.title() for x in components[1:])
+
+
+def to_kebab_case(text: str) -> str:
+    """Convert text to kebab-case (lowercase with hyphens).
+
+    Handles camelCase, snake_case, space-separated, and mixed input.
+    """
+    s1 = re.sub("(.)([A-Z][a-z]+)", r"\1-\2", text)
+    s2 = re.sub("([a-z0-9])([A-Z])", r"\1-\2", s1)
+    s3 = re.sub(r"[_\s]+", "-", s2)
+    return s3.lower()

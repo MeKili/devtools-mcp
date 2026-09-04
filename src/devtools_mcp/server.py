@@ -97,6 +97,24 @@ def hex_to_text(hex_str: str) -> str:
     return tools.hex_to_text(hex_str)
 
 
+@mcp.tool()
+def to_snake_case(text: str) -> str:
+    """Convert text to snake_case (lowercase with underscores)."""
+    return tools.to_snake_case(text)
+
+
+@mcp.tool()
+def to_camel_case(text: str) -> str:
+    """Convert text to camelCase (lowercase first, uppercase after separators)."""
+    return tools.to_camel_case(text)
+
+
+@mcp.tool()
+def to_kebab_case(text: str) -> str:
+    """Convert text to kebab-case (lowercase with hyphens)."""
+    return tools.to_kebab_case(text)
+
+
 def main() -> None:
     """Run the MCP server over stdio."""
     mcp.run()
