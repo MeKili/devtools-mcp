@@ -14,6 +14,12 @@ mcp = FastMCP("devtools")
 
 
 @mcp.tool()
+def char_count(text: str) -> int:
+    """Count the number of characters in ``text`` (including spaces and newlines)."""
+    return tools.char_count(text)
+
+
+@mcp.tool()
 def word_count(text: str) -> int:
     """Count the whitespace-separated words in ``text``."""
     return tools.word_count(text)

@@ -1,6 +1,7 @@
 """Tests for the pure tool functions (deterministic, offline)."""
 
 from devtools_mcp.tools import (
+    char_count,
     from_base64,
     hex_to_text,
     json_minify,
@@ -19,6 +20,14 @@ from devtools_mcp.tools import (
     uuid4_str,
     word_count,
 )
+
+
+def test_char_count() -> None:
+    assert char_count("hello") == 5
+    assert char_count("hello world") == 11
+    assert char_count("") == 0
+    assert char_count("\n\n") == 2
+    assert char_count("café") == 4
 
 
 def test_word_count() -> None:
