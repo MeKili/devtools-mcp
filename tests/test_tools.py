@@ -1,5 +1,7 @@
 """Tests for the pure tool functions (deterministic, offline)."""
 
+import re
+
 from devtools_mcp.tools import (
     char_count,
     from_base64,
@@ -7,6 +9,7 @@ from devtools_mcp.tools import (
     json_minify,
     json_pretty_print,
     md5_hex,
+    regex_search,
     sha1_hex,
     sha256_hex,
     slugify,
@@ -258,3 +261,54 @@ def test_to_kebab_case_spaces() -> None:
 def test_to_kebab_case_mixed() -> None:
     assert to_kebab_case("hello_world-test") == "hello-world-test"
     assert to_kebab_case("myVar_name test") == "my-var-name-test"
+
+
+def test_regex_search_basic() -> None:
+    result = regex_search("hello world", r"\w+")
+    assert len(result) == 2
+    assert result[0]["match"] == "hello"
+    assert result[0]["start"] == 0
+    assert result[0]["end"] == 5
+    assert result[1]["match"] == "world"
+    assert result[1]["start"] == 6
+    assert result[1]["end"] == 11
+
+
+def test_regex_search_no_matches() -> None:
+    result = regex_search("hello", r"\d+")
+    assert result == []
+
+
+def test_regex_search_digits() -> None:
+    result = regex_search("a1b2c3", r"\d")
+    assert len(result) == 3
+    assert result[0]["match"] == "1"
+    assert result[1]["match"] == "2"
+    assert result[2]["match"] == "3"
+
+
+def test_regex_search_groups() -> None:
+    result = regex_search("test@example.com", r"[a-zA-Z0-9]+@[a-zA-Z0-9.]+")
+    assert len(result) == 1
+    assert result[0]["match"] == "test@example.com"
+
+
+def test_regex_search_multiline() -> None:
+    text = "line1\nline2\nline3"
+    result = regex_search(text, r"line\d")
+    assert len(result) == 3
+    assert all(r["match"].startswith("line") for r in result)
+
+
+def test_regex_search_case_insensitive() -> None:
+
+    result = regex_search("Hello HELLO hello", r"(?i)hello")
+    assert len(result) == 3
+    assert all(r["match"].lower() == "hello" for r in result)
+
+
+def test_regex_search_invalid_pattern() -> None:
+    import pytest
+
+    with pytest.raises(re.error):
+        regex_search("test", r"[invalid")

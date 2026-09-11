@@ -8,7 +8,16 @@ import json
 import re
 import unicodedata
 import uuid
+from typing import TypedDict
 from urllib.parse import quote, unquote
+
+
+class RegexMatch(TypedDict):
+    """A regex match with position information."""
+
+    match: str
+    start: int
+    end: int
 
 
 def char_count(text: str) -> int:
@@ -150,3 +159,24 @@ def to_kebab_case(text: str) -> str:
     s2 = re.sub("([a-z0-9])([A-Z])", r"\1-\2", s1)
     s3 = re.sub(r"[_\s]+", "-", s2)
     return s3.lower()
+
+
+def regex_search(text: str, pattern: str) -> list[RegexMatch]:
+    """Search for all regex matches in text.
+
+    Returns a list of dicts with 'match', 'start', and 'end' keys for each match.
+    Raises re.error if the pattern is not a valid regex.
+    """
+    matches: list[RegexMatch] = []
+    try:
+        for m in re.finditer(pattern, text):
+            matches.append(
+                RegexMatch(
+                    match=m.group(0),
+                    start=m.start(),
+                    end=m.end(),
+                )
+            )
+    except re.error as e:
+        raise re.error(f"Invalid regex pattern: {e}") from e
+    return matches

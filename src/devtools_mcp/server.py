@@ -121,6 +121,15 @@ def to_kebab_case(text: str) -> str:
     return tools.to_kebab_case(text)
 
 
+@mcp.tool()
+def regex_search(text: str, pattern: str) -> list[tools.RegexMatch]:
+    """Search for all regex matches in text.
+
+    Returns a list of matches with position information (match, start, end).
+    """
+    return tools.regex_search(text, pattern)
+
+
 def main() -> None:
     """Run the MCP server over stdio."""
     mcp.run()
