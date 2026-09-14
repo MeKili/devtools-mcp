@@ -10,6 +10,7 @@ from devtools_mcp.tools import (
     json_pretty_print,
     md5_hex,
     regex_search,
+    reverse_string,
     sha1_hex,
     sha256_hex,
     slugify,
@@ -301,7 +302,6 @@ def test_regex_search_multiline() -> None:
 
 
 def test_regex_search_case_insensitive() -> None:
-
     result = regex_search("Hello HELLO hello", r"(?i)hello")
     assert len(result) == 3
     assert all(r["match"].lower() == "hello" for r in result)
@@ -312,3 +312,29 @@ def test_regex_search_invalid_pattern() -> None:
 
     with pytest.raises(re.error):
         regex_search("test", r"[invalid")
+
+
+def test_reverse_string_basic() -> None:
+    assert reverse_string("hello") == "olleh"
+    assert reverse_string("abc") == "cba"
+    assert reverse_string("") == ""
+
+
+def test_reverse_string_special_chars() -> None:
+    assert reverse_string("hello!") == "!olleh"
+    assert reverse_string("123 abc") == "cba 321"
+
+
+def test_reverse_string_unicode() -> None:
+    assert reverse_string("café") == "éfac"
+    assert reverse_string("🎉hello") == "olleh🎉"
+
+
+def test_reverse_string_single_char() -> None:
+    assert reverse_string("a") == "a"
+    assert reverse_string("🎉") == "🎉"
+
+
+def test_reverse_string_palindrome() -> None:
+    palindrome = "racecar"
+    assert reverse_string(palindrome) == palindrome

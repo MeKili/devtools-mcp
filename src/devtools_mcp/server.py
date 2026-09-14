@@ -130,6 +130,12 @@ def regex_search(text: str, pattern: str) -> list[tools.RegexMatch]:
     return tools.regex_search(text, pattern)
 
 
+@mcp.tool()
+def reverse_string(text: str) -> str:
+    """Reverse a string character by character."""
+    return tools.reverse_string(text)
+
+
 def main() -> None:
     """Run the MCP server over stdio."""
     mcp.run()

@@ -180,3 +180,8 @@ def regex_search(text: str, pattern: str) -> list[RegexMatch]:
     except re.error as e:
         raise re.error(f"Invalid regex pattern: {e}") from e
     return matches
+
+
+def reverse_string(text: str) -> str:
+    """Reverse a string character by character."""
+    return text[::-1]
