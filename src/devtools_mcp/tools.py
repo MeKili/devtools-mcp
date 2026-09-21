@@ -30,6 +30,16 @@ def word_count(text: str) -> int:
     return len(text.split())
 
 
+def line_count(text: str) -> int:
+    """Return the number of lines in ``text`` (split by newlines).
+
+    Empty text returns 0; a single line with no newline returns 1.
+    """
+    if not text:
+        return 0
+    return len(text.splitlines())
+
+
 def md5_hex(text: str) -> str:
     """Return the hex MD5 digest of ``text`` (encoded as UTF-8)."""
     return hashlib.md5(text.encode("utf-8")).hexdigest()

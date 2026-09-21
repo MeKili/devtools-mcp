@@ -26,6 +26,12 @@ def word_count(text: str) -> int:
 
 
 @mcp.tool()
+def line_count(text: str) -> int:
+    """Count the number of lines in ``text``."""
+    return tools.line_count(text)
+
+
+@mcp.tool()
 def md5_hex(text: str) -> str:
     """Return the hex MD5 digest of ``text``."""
     return tools.md5_hex(text)

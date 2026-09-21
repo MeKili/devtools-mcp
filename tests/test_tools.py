@@ -8,6 +8,7 @@ from devtools_mcp.tools import (
     hex_to_text,
     json_minify,
     json_pretty_print,
+    line_count,
     md5_hex,
     regex_search,
     reverse_string,
@@ -37,6 +38,35 @@ def test_char_count() -> None:
 def test_word_count() -> None:
     assert word_count("hello world  foo") == 3
     assert word_count("") == 0
+
+
+def test_line_count_single_line() -> None:
+    assert line_count("hello") == 1
+    assert line_count("hello world") == 1
+
+
+def test_line_count_multiple_lines() -> None:
+    assert line_count("hello\nworld") == 2
+    assert line_count("line1\nline2\nline3") == 3
+
+
+def test_line_count_empty() -> None:
+    assert line_count("") == 0
+
+
+def test_line_count_trailing_newline() -> None:
+    assert line_count("hello\n") == 1
+    assert line_count("hello\nworld\n") == 2
+
+
+def test_line_count_multiple_newlines() -> None:
+    assert line_count("hello\n\nworld") == 3
+    assert line_count("\n\n\n") == 3
+
+
+def test_line_count_with_carriage_return() -> None:
+    assert line_count("hello\r\nworld") == 2
+    assert line_count("line1\r\nline2\r\nline3") == 3
 
 
 def test_md5_hex_known_value() -> None:
