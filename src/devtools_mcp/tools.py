@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import base64
 import hashlib
+import html
 import json
 import re
 import unicodedata
@@ -195,3 +196,16 @@ def regex_search(text: str, pattern: str) -> list[RegexMatch]:
 def reverse_string(text: str) -> str:
     """Reverse a string character by character."""
     return text[::-1]
+
+
+def html_escape(text: str) -> str:
+    """Escape HTML special characters in text.
+
+    Converts: & < > " '
+    """
+    return html.escape(text, quote=True)
+
+
+def html_unescape(text: str) -> str:
+    """Unescape HTML entities back to their character equivalents."""
+    return html.unescape(text)

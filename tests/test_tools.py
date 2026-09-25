@@ -6,6 +6,8 @@ from devtools_mcp.tools import (
     char_count,
     from_base64,
     hex_to_text,
+    html_escape,
+    html_unescape,
     json_minify,
     json_pretty_print,
     line_count,
@@ -368,3 +370,44 @@ def test_reverse_string_single_char() -> None:
 def test_reverse_string_palindrome() -> None:
     palindrome = "racecar"
     assert reverse_string(palindrome) == palindrome
+
+
+def test_html_escape_basic() -> None:
+    assert html_escape("<div>") == "&lt;div&gt;"
+    assert html_escape("a & b") == "a &amp; b"
+    assert html_escape('hello "world"') == "hello &quot;world&quot;"
+    assert html_escape("it's") == "it&#x27;s"
+
+
+def test_html_escape_no_special_chars() -> None:
+    assert html_escape("hello") == "hello"
+    assert html_escape("123") == "123"
+
+
+def test_html_escape_multiple() -> None:
+    assert (
+        html_escape("<script>alert('xss')</script>")
+        == "&lt;script&gt;alert(&#x27;xss&#x27;)&lt;/script&gt;"
+    )
+
+
+def test_html_unescape_basic() -> None:
+    assert html_unescape("&lt;div&gt;") == "<div>"
+    assert html_unescape("a &amp; b") == "a & b"
+    assert html_unescape("&quot;hello&quot;") == '"hello"'
+    assert html_unescape("&#x27;") == "'"
+
+
+def test_html_unescape_numeric_entities() -> None:
+    assert html_unescape("&#169;") == "©"
+    assert html_unescape("&#8364;") == "€"
+
+
+def test_html_unescape_no_entities() -> None:
+    assert html_unescape("hello") == "hello"
+    assert html_unescape("123") == "123"
+
+
+def test_html_escape_unescape_roundtrip() -> None:
+    text = '<div class="container">Hello & "World"</div>'
+    assert html_unescape(html_escape(text)) == text

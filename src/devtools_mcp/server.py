@@ -142,6 +142,18 @@ def reverse_string(text: str) -> str:
     return tools.reverse_string(text)
 
 
+@mcp.tool()
+def html_escape(text: str) -> str:
+    """Escape HTML special characters (& < > \" ')."""
+    return tools.html_escape(text)
+
+
+@mcp.tool()
+def html_unescape(text: str) -> str:
+    """Unescape HTML entities back to their character equivalents."""
+    return tools.html_unescape(text)
+
+
 def main() -> None:
     """Run the MCP server over stdio."""
     mcp.run()
