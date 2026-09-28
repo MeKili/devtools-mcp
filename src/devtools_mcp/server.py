@@ -154,6 +154,12 @@ def html_unescape(text: str) -> str:
     return tools.html_unescape(text)
 
 
+@mcp.tool()
+def dedent(text: str) -> str:
+    """Remove common leading whitespace from every line (preserves relative indentation)."""
+    return tools.dedent(text)
+
+
 def main() -> None:
     """Run the MCP server over stdio."""
     mcp.run()

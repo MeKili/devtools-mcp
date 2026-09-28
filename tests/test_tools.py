@@ -4,6 +4,7 @@ import re
 
 from devtools_mcp.tools import (
     char_count,
+    dedent,
     from_base64,
     hex_to_text,
     html_escape,
@@ -411,3 +412,48 @@ def test_html_unescape_no_entities() -> None:
 def test_html_escape_unescape_roundtrip() -> None:
     text = '<div class="container">Hello & "World"</div>'
     assert html_unescape(html_escape(text)) == text
+
+
+def test_dedent_basic() -> None:
+    text = """
+        hello
+        world
+    """
+    result = dedent(text)
+    assert result == "\nhello\nworld\n"
+
+
+def test_dedent_mixed_indent() -> None:
+    text = """
+        line1
+            line2
+        line3
+    """
+    result = dedent(text)
+    assert result == "\nline1\n    line2\nline3\n"
+
+
+def test_dedent_no_common_indent() -> None:
+    text = "hello\n    world"
+    result = dedent(text)
+    assert result == "hello\n    world"
+
+
+def test_dedent_single_line() -> None:
+    text = "hello"
+    assert dedent(text) == "hello"
+
+
+def test_dedent_empty_string() -> None:
+    assert dedent("") == ""
+
+
+def test_dedent_preserves_relative_indentation() -> None:
+    text = """
+        if True:
+            print("hello")
+            print("world")
+    """
+    result = dedent(text)
+    assert "if True:" in result
+    assert '    print("hello")' in result

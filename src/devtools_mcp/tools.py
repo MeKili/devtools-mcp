@@ -7,6 +7,7 @@ import hashlib
 import html
 import json
 import re
+import textwrap
 import unicodedata
 import uuid
 from typing import TypedDict
@@ -209,3 +210,12 @@ def html_escape(text: str) -> str:
 def html_unescape(text: str) -> str:
     """Unescape HTML entities back to their character equivalents."""
     return html.unescape(text)
+
+
+def dedent(text: str) -> str:
+    """Remove common leading whitespace from every line in text.
+
+    Useful for formatting indented strings (e.g., multi-line strings in code).
+    Preserves relative indentation between lines.
+    """
+    return textwrap.dedent(text)
