@@ -5,6 +5,7 @@ import re
 from devtools_mcp.tools import (
     char_count,
     dedent,
+    from_base32,
     from_base64,
     hex_to_text,
     html_escape,
@@ -19,6 +20,7 @@ from devtools_mcp.tools import (
     sha256_hex,
     slugify,
     text_to_hex,
+    to_base32,
     to_base64,
     to_camel_case,
     to_kebab_case,
@@ -90,6 +92,25 @@ def test_sha256_hex_known_value() -> None:
 def test_base64_roundtrip() -> None:
     assert to_base64("abc") == "YWJj"
     assert from_base64(to_base64("héllo")) == "héllo"
+
+
+def test_base32_encode() -> None:
+    assert to_base32("abc") == "MFRGG==="
+    assert to_base32("hello") == "NBSWY3DP"
+    assert to_base32("") == ""
+
+
+def test_base32_decode() -> None:
+    assert from_base32("MFRGG===") == "abc"
+    assert from_base32("NBSWY3DP") == "hello"
+    assert from_base32("") == ""
+
+
+def test_base32_roundtrip() -> None:
+    assert to_base32("abc") == "MFRGG==="
+    assert from_base32(to_base32("héllo")) == "héllo"
+    text = "The quick brown fox"
+    assert from_base32(to_base32(text)) == text
 
 
 def test_url_encode() -> None:

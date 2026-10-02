@@ -62,6 +62,18 @@ def from_base64(data: str) -> str:
 
 
 @mcp.tool()
+def to_base32(text: str) -> str:
+    """Base32-encode text."""
+    return tools.to_base32(text)
+
+
+@mcp.tool()
+def from_base32(data: str) -> str:
+    """Decode a base32 string back to text."""
+    return tools.from_base32(data)
+
+
+@mcp.tool()
 def url_encode(text: str) -> str:
     """URL-encode text (percent-encoding special characters)."""
     return tools.url_encode(text)

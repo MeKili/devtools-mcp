@@ -67,6 +67,16 @@ def from_base64(data: str) -> str:
     return base64.b64decode(data.encode("ascii")).decode("utf-8")
 
 
+def to_base32(text: str) -> str:
+    """Base32-encode ``text`` (UTF-8) and return an ASCII string."""
+    return base64.b32encode(text.encode("utf-8")).decode("ascii")
+
+
+def from_base32(data: str) -> str:
+    """Decode a base32 ``data`` string back to UTF-8 text."""
+    return base64.b32decode(data.encode("ascii")).decode("utf-8")
+
+
 def url_encode(text: str) -> str:
     """URL-encode ``text`` (percent-encoding special characters)."""
     return quote(text, safe="")
