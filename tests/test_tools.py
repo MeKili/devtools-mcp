@@ -19,6 +19,7 @@ from devtools_mcp.tools import (
     sha1_hex,
     sha256_hex,
     slugify,
+    string_replace,
     text_to_hex,
     to_base32,
     to_base64,
@@ -478,3 +479,33 @@ def test_dedent_preserves_relative_indentation() -> None:
     result = dedent(text)
     assert "if True:" in result
     assert '    print("hello")' in result
+
+
+def test_string_replace_all_occurrences() -> None:
+    assert string_replace("hello world hello", "hello", "hi") == "hi world hi"
+    assert string_replace("aaa", "a", "b") == "bbb"
+    assert string_replace("test", "x", "y") == "test"
+
+
+def test_string_replace_limited_count() -> None:
+    assert string_replace("hello world hello", "hello", "hi", count=1) == "hi world hello"
+    assert string_replace("aaa", "a", "b", count=2) == "bba"
+    assert string_replace("test", "e", "E", count=1) == "tEst"
+
+
+def test_string_replace_zero_count() -> None:
+    assert string_replace("hello", "l", "L", count=0) == "hello"
+
+
+def test_string_replace_empty_search() -> None:
+    result = string_replace("abc", "", "x")
+    assert result.count("x") > len("abc")
+
+
+def test_string_replace_empty_text() -> None:
+    assert string_replace("", "test", "replacement") == ""
+
+
+def test_string_replace_empty_replacement() -> None:
+    assert string_replace("hello world", "world", "") == "hello "
+    assert string_replace("aaa", "a", "") == ""

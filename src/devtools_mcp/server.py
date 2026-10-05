@@ -172,6 +172,16 @@ def dedent(text: str) -> str:
     return tools.dedent(text)
 
 
+@mcp.tool()
+def string_replace(text: str, search: str, replacement: str, count: int = -1) -> str:
+    """Replace occurrences of search string with replacement.
+
+    If count is -1 (default), replace all occurrences.
+    If count > 0, replace only the first count occurrences.
+    """
+    return tools.string_replace(text, search, replacement, count)
+
+
 def main() -> None:
     """Run the MCP server over stdio."""
     mcp.run()

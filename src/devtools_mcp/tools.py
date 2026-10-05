@@ -229,3 +229,14 @@ def dedent(text: str) -> str:
     Preserves relative indentation between lines.
     """
     return textwrap.dedent(text)
+
+
+def string_replace(text: str, search: str, replacement: str, count: int = -1) -> str:
+    """Replace occurrences of search string with replacement in text.
+
+    If count is -1 (default), replace all occurrences.
+    If count > 0, replace only the first count occurrences.
+    """
+    if count == -1:
+        return text.replace(search, replacement)
+    return text.replace(search, replacement, count)
