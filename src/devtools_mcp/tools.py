@@ -240,3 +240,13 @@ def string_replace(text: str, search: str, replacement: str, count: int = -1) ->
     if count == -1:
         return text.replace(search, replacement)
     return text.replace(search, replacement, count)
+
+
+def uppercase(text: str) -> str:
+    """Convert text to uppercase."""
+    return text.upper()
+
+
+def lowercase(text: str) -> str:
+    """Convert text to lowercase."""
+    return text.lower()

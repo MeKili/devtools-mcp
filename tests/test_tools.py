@@ -13,6 +13,7 @@ from devtools_mcp.tools import (
     json_minify,
     json_pretty_print,
     line_count,
+    lowercase,
     md5_hex,
     regex_search,
     reverse_string,
@@ -26,6 +27,7 @@ from devtools_mcp.tools import (
     to_camel_case,
     to_kebab_case,
     to_snake_case,
+    uppercase,
     url_decode,
     url_encode,
     uuid4_str,
@@ -509,3 +511,50 @@ def test_string_replace_empty_text() -> None:
 def test_string_replace_empty_replacement() -> None:
     assert string_replace("hello world", "world", "") == "hello "
     assert string_replace("aaa", "a", "") == ""
+
+
+def test_uppercase_basic() -> None:
+    assert uppercase("hello") == "HELLO"
+    assert uppercase("world") == "WORLD"
+    assert uppercase("") == ""
+
+
+def test_uppercase_mixed() -> None:
+    assert uppercase("HeLLo WoRLd") == "HELLO WORLD"
+    assert uppercase("123abc") == "123ABC"
+
+
+def test_uppercase_special_chars() -> None:
+    assert uppercase("hello@world!") == "HELLO@WORLD!"
+    assert uppercase("test-case_name") == "TEST-CASE_NAME"
+
+
+def test_uppercase_unicode() -> None:
+    assert uppercase("café") == "CAFÉ"
+    assert uppercase("naïve") == "NAÏVE"
+
+
+def test_lowercase_basic() -> None:
+    assert lowercase("HELLO") == "hello"
+    assert lowercase("WORLD") == "world"
+    assert lowercase("") == ""
+
+
+def test_lowercase_mixed() -> None:
+    assert lowercase("HeLLo WoRLd") == "hello world"
+    assert lowercase("123ABC") == "123abc"
+
+
+def test_lowercase_special_chars() -> None:
+    assert lowercase("HELLO@WORLD!") == "hello@world!"
+    assert lowercase("TEST-CASE_NAME") == "test-case_name"
+
+
+def test_lowercase_unicode() -> None:
+    assert lowercase("CAFÉ") == "café"
+    assert lowercase("NAÏVE") == "naïve"
+
+
+def test_uppercase_lowercase_roundtrip() -> None:
+    assert lowercase(uppercase("Hello World")) == "hello world"
+    assert uppercase(lowercase("Hello World")) == "HELLO WORLD"

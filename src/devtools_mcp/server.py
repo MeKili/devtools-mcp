@@ -182,6 +182,18 @@ def string_replace(text: str, search: str, replacement: str, count: int = -1) ->
     return tools.string_replace(text, search, replacement, count)
 
 
+@mcp.tool()
+def uppercase(text: str) -> str:
+    """Convert text to uppercase."""
+    return tools.uppercase(text)
+
+
+@mcp.tool()
+def lowercase(text: str) -> str:
+    """Convert text to lowercase."""
+    return tools.lowercase(text)
+
+
 def main() -> None:
     """Run the MCP server over stdio."""
     mcp.run()
