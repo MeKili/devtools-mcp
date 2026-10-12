@@ -14,9 +14,11 @@ from devtools_mcp.tools import (
     json_pretty_print,
     line_count,
     lowercase,
+    ltrim_string,
     md5_hex,
     regex_search,
     reverse_string,
+    rtrim_string,
     sha1_hex,
     sha256_hex,
     slugify,
@@ -27,6 +29,7 @@ from devtools_mcp.tools import (
     to_camel_case,
     to_kebab_case,
     to_snake_case,
+    trim_string,
     uppercase,
     url_decode,
     url_encode,
@@ -558,3 +561,62 @@ def test_lowercase_unicode() -> None:
 def test_uppercase_lowercase_roundtrip() -> None:
     assert lowercase(uppercase("Hello World")) == "hello world"
     assert uppercase(lowercase("Hello World")) == "HELLO WORLD"
+
+
+def test_trim_string_basic() -> None:
+    assert trim_string("  hello  ") == "hello"
+    assert trim_string("  world  ") == "world"
+    assert trim_string("hello") == "hello"
+
+
+def test_trim_string_tabs_newlines() -> None:
+    assert trim_string("\thello\n") == "hello"
+    assert trim_string("\n\tworld\t\n") == "world"
+    assert trim_string("\r\ntest\r\n") == "test"
+
+
+def test_trim_string_empty() -> None:
+    assert trim_string("") == ""
+    assert trim_string("   ") == ""
+    assert trim_string("\t\n") == ""
+
+
+def test_trim_string_internal_spaces() -> None:
+    assert trim_string("  hello world  ") == "hello world"
+    assert trim_string("\thello  world\n") == "hello  world"
+
+
+def test_ltrim_string_basic() -> None:
+    assert ltrim_string("  hello") == "hello"
+    assert ltrim_string("  world  ") == "world  "
+    assert ltrim_string("hello") == "hello"
+
+
+def test_ltrim_string_various_whitespace() -> None:
+    assert ltrim_string("\thello") == "hello"
+    assert ltrim_string("\n\nworld") == "world"
+    assert ltrim_string(" \t\ntest") == "test"
+
+
+def test_ltrim_string_empty() -> None:
+    assert ltrim_string("") == ""
+    assert ltrim_string("   ") == ""
+    assert ltrim_string("\t\n") == ""
+
+
+def test_rtrim_string_basic() -> None:
+    assert rtrim_string("hello  ") == "hello"
+    assert rtrim_string("  world  ") == "  world"
+    assert rtrim_string("hello") == "hello"
+
+
+def test_rtrim_string_various_whitespace() -> None:
+    assert rtrim_string("hello\t") == "hello"
+    assert rtrim_string("world\n\n") == "world"
+    assert rtrim_string("test \t\n") == "test"
+
+
+def test_rtrim_string_empty() -> None:
+    assert rtrim_string("") == ""
+    assert rtrim_string("   ") == ""
+    assert rtrim_string("\t\n") == ""

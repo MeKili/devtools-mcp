@@ -250,3 +250,18 @@ def uppercase(text: str) -> str:
 def lowercase(text: str) -> str:
     """Convert text to lowercase."""
     return text.lower()
+
+
+def trim_string(text: str) -> str:
+    """Remove leading and trailing whitespace from text."""
+    return text.strip()
+
+
+def ltrim_string(text: str) -> str:
+    """Remove leading whitespace from text."""
+    return text.lstrip()
+
+
+def rtrim_string(text: str) -> str:
+    """Remove trailing whitespace from text."""
+    return text.rstrip()

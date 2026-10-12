@@ -194,6 +194,24 @@ def lowercase(text: str) -> str:
     return tools.lowercase(text)
 
 
+@mcp.tool()
+def trim_string(text: str) -> str:
+    """Remove leading and trailing whitespace from text."""
+    return tools.trim_string(text)
+
+
+@mcp.tool()
+def ltrim_string(text: str) -> str:
+    """Remove leading whitespace from text."""
+    return tools.ltrim_string(text)
+
+
+@mcp.tool()
+def rtrim_string(text: str) -> str:
+    """Remove trailing whitespace from text."""
+    return tools.rtrim_string(text)
+
+
 def main() -> None:
     """Run the MCP server over stdio."""
     mcp.run()
