@@ -22,6 +22,7 @@ from devtools_mcp.tools import (
     sha1_hex,
     sha256_hex,
     slugify,
+    split_string,
     string_replace,
     text_to_hex,
     to_base32,
@@ -620,3 +621,60 @@ def test_rtrim_string_empty() -> None:
     assert rtrim_string("") == ""
     assert rtrim_string("   ") == ""
     assert rtrim_string("\t\n") == ""
+
+
+def test_split_string_basic() -> None:
+    assert split_string("hello,world,test", ",") == ["hello", "world", "test"]
+    assert split_string("a|b|c", "|") == ["a", "b", "c"]
+    assert split_string("one two three", " ") == ["one", "two", "three"]
+
+
+def test_split_string_empty_text() -> None:
+    assert split_string("", ",") == [""]
+    assert split_string("", "|") == [""]
+
+
+def test_split_string_no_delimiter() -> None:
+    assert split_string("hello", ",") == ["hello"]
+    assert split_string("test", "|") == ["test"]
+
+
+def test_split_string_single_delimiter() -> None:
+    assert split_string("hello,world", ",") == ["hello", "world"]
+    assert split_string("a|b", "|") == ["a", "b"]
+
+
+def test_split_string_maxsplit_default() -> None:
+    assert split_string("a,b,c,d", ",") == ["a", "b", "c", "d"]
+    assert split_string("a,b,c,d", ",", -1) == ["a", "b", "c", "d"]
+
+
+def test_split_string_maxsplit_limited() -> None:
+    assert split_string("a,b,c,d", ",", 1) == ["a", "b,c,d"]
+    assert split_string("a,b,c,d", ",", 2) == ["a", "b", "c,d"]
+    assert split_string("hello world test more", " ", 2) == ["hello", "world", "test more"]
+
+
+def test_split_string_maxsplit_zero() -> None:
+    assert split_string("a,b,c", ",", 0) == ["a,b,c"]
+    assert split_string("hello,world", ",", 0) == ["hello,world"]
+
+
+def test_split_string_multichar_delimiter() -> None:
+    assert split_string("hello::world::test", "::") == ["hello", "world", "test"]
+    assert split_string("one---two---three", "---") == ["one", "two", "three"]
+
+
+def test_split_string_consecutive_delimiters() -> None:
+    assert split_string("a,,b", ",") == ["a", "", "b"]
+    assert split_string("||test||", "|") == ["", "", "test", "", ""]
+
+
+def test_split_string_trailing_delimiter() -> None:
+    assert split_string("hello,", ",") == ["hello", ""]
+    assert split_string("test|", "|") == ["test", ""]
+
+
+def test_split_string_leading_delimiter() -> None:
+    assert split_string(",hello", ",") == ["", "hello"]
+    assert split_string("|test", "|") == ["", "test"]

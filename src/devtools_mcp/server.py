@@ -212,6 +212,16 @@ def rtrim_string(text: str) -> str:
     return tools.rtrim_string(text)
 
 
+@mcp.tool()
+def split_string(text: str, delimiter: str, maxsplit: int = -1) -> list[str]:
+    """Split text by delimiter into a list of strings.
+
+    If maxsplit is -1 (default), split all occurrences.
+    If maxsplit > 0, split only the first maxsplit occurrences.
+    """
+    return tools.split_string(text, delimiter, maxsplit)
+
+
 def main() -> None:
     """Run the MCP server over stdio."""
     mcp.run()

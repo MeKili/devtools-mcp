@@ -265,3 +265,14 @@ def ltrim_string(text: str) -> str:
 def rtrim_string(text: str) -> str:
     """Remove trailing whitespace from text."""
     return text.rstrip()
+
+
+def split_string(text: str, delimiter: str, maxsplit: int = -1) -> list[str]:
+    """Split text by delimiter into a list of strings.
+
+    If maxsplit is -1 (default), split all occurrences.
+    If maxsplit > 0, split only the first maxsplit occurrences.
+    """
+    if maxsplit == -1:
+        return text.split(delimiter)
+    return text.split(delimiter, maxsplit)
