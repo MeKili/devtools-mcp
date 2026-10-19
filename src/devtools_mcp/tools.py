@@ -276,3 +276,11 @@ def split_string(text: str, delimiter: str, maxsplit: int = -1) -> list[str]:
     if maxsplit == -1:
         return text.split(delimiter)
     return text.split(delimiter, maxsplit)
+
+
+def join_strings(separator: str, strings: list[str]) -> str:
+    """Join a list of strings with a separator between them.
+
+    Inverse operation of split_string.
+    """
+    return separator.join(strings)

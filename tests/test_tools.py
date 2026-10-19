@@ -10,6 +10,7 @@ from devtools_mcp.tools import (
     hex_to_text,
     html_escape,
     html_unescape,
+    join_strings,
     json_minify,
     json_pretty_print,
     line_count,
@@ -678,3 +679,51 @@ def test_split_string_trailing_delimiter() -> None:
 def test_split_string_leading_delimiter() -> None:
     assert split_string(",hello", ",") == ["", "hello"]
     assert split_string("|test", "|") == ["", "test"]
+
+
+def test_join_strings_basic() -> None:
+    assert join_strings(",", ["hello", "world", "test"]) == "hello,world,test"
+    assert join_strings("|", ["a", "b", "c"]) == "a|b|c"
+    assert join_strings(" ", ["one", "two", "three"]) == "one two three"
+
+
+def test_join_strings_single_element() -> None:
+    assert join_strings(",", ["hello"]) == "hello"
+    assert join_strings("|", ["single"]) == "single"
+
+
+def test_join_strings_empty_list() -> None:
+    assert join_strings(",", []) == ""
+    assert join_strings("|", []) == ""
+
+
+def test_join_strings_empty_strings() -> None:
+    assert join_strings(",", ["", "", ""]) == ",,"
+    assert join_strings("|", ["a", "", "b"]) == "a||b"
+
+
+def test_join_strings_multichar_separator() -> None:
+    assert join_strings("::", ["hello", "world"]) == "hello::world"
+    assert join_strings("---", ["one", "two", "three"]) == "one---two---three"
+
+
+def test_join_strings_split_roundtrip() -> None:
+    original = "hello,world,test"
+    parts = split_string(original, ",")
+    assert join_strings(",", parts) == original
+
+
+def test_join_strings_split_roundtrip_multichar() -> None:
+    original = "a::b::c::d"
+    parts = split_string(original, "::")
+    assert join_strings("::", parts) == original
+
+
+def test_join_strings_whitespace_separator() -> None:
+    assert join_strings("\n", ["line1", "line2", "line3"]) == "line1\nline2\nline3"
+    assert join_strings("\t", ["col1", "col2", "col3"]) == "col1\tcol2\tcol3"
+
+
+def test_join_strings_empty_separator() -> None:
+    assert join_strings("", ["h", "e", "l", "l", "o"]) == "hello"
+    assert join_strings("", ["a", "b", "c"]) == "abc"

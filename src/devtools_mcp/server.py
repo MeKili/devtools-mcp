@@ -222,6 +222,12 @@ def split_string(text: str, delimiter: str, maxsplit: int = -1) -> list[str]:
     return tools.split_string(text, delimiter, maxsplit)
 
 
+@mcp.tool()
+def join_strings(separator: str, strings: list[str]) -> str:
+    """Join a list of strings with a separator between them."""
+    return tools.join_strings(separator, strings)
+
+
 def main() -> None:
     """Run the MCP server over stdio."""
     mcp.run()
