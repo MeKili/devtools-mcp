@@ -284,3 +284,18 @@ def join_strings(separator: str, strings: list[str]) -> str:
     Inverse operation of split_string.
     """
     return separator.join(strings)
+
+
+def sort_lines(text: str, reverse: bool = False, unique: bool = False) -> str:
+    """Sort lines of text.
+
+    Optionally removes duplicate lines and reverses sort order.
+    Empty input returns empty string; single line returns that line.
+    """
+    if not text:
+        return ""
+    lines = text.splitlines()
+    if unique:
+        lines = list(dict.fromkeys(lines))
+    lines.sort(reverse=reverse)
+    return "\n".join(lines)

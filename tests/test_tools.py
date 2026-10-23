@@ -23,6 +23,7 @@ from devtools_mcp.tools import (
     sha1_hex,
     sha256_hex,
     slugify,
+    sort_lines,
     split_string,
     string_replace,
     text_to_hex,
@@ -727,3 +728,65 @@ def test_join_strings_whitespace_separator() -> None:
 def test_join_strings_empty_separator() -> None:
     assert join_strings("", ["h", "e", "l", "l", "o"]) == "hello"
     assert join_strings("", ["a", "b", "c"]) == "abc"
+
+
+def test_sort_lines_basic() -> None:
+    text = "zebra\napple\nbanana"
+    result = sort_lines(text)
+    assert result == "apple\nbanana\nzebra"
+
+
+def test_sort_lines_reverse() -> None:
+    text = "apple\nbanana\nzebra"
+    result = sort_lines(text, reverse=True)
+    assert result == "zebra\nbanana\napple"
+
+
+def test_sort_lines_empty() -> None:
+    assert sort_lines("") == ""
+
+
+def test_sort_lines_single_line() -> None:
+    assert sort_lines("hello") == "hello"
+
+
+def test_sort_lines_duplicate_lines() -> None:
+    text = "dog\ncat\ndog\nbird"
+    result = sort_lines(text)
+    assert result == "bird\ncat\ndog\ndog"
+
+
+def test_sort_lines_unique() -> None:
+    text = "dog\ncat\ndog\nbird\ncat"
+    result = sort_lines(text, unique=True)
+    assert result == "bird\ncat\ndog"
+
+
+def test_sort_lines_unique_reverse() -> None:
+    text = "apple\nbanana\napple\ncherry"
+    result = sort_lines(text, unique=True, reverse=True)
+    assert result == "cherry\nbanana\napple"
+
+
+def test_sort_lines_numbers_as_strings() -> None:
+    text = "3\n1\n2"
+    result = sort_lines(text)
+    assert result == "1\n2\n3"
+
+
+def test_sort_lines_case_sensitive() -> None:
+    text = "Apple\napple\nBanana\nbanana"
+    result = sort_lines(text)
+    assert result == "Apple\nBanana\napple\nbanana"
+
+
+def test_sort_lines_whitespace_preserved() -> None:
+    text = "  hello\nworld\n  test"
+    result = sort_lines(text)
+    assert result == "  hello\n  test\nworld"
+
+
+def test_sort_lines_with_trailing_newline() -> None:
+    text = "zebra\napple\nbanana\n"
+    result = sort_lines(text)
+    assert result == "apple\nbanana\nzebra"

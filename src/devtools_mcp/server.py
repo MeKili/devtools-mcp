@@ -228,6 +228,12 @@ def join_strings(separator: str, strings: list[str]) -> str:
     return tools.join_strings(separator, strings)
 
 
+@mcp.tool()
+def sort_lines(text: str, reverse: bool = False, unique: bool = False) -> str:
+    """Sort lines of text, with options for reverse order and uniqueness."""
+    return tools.sort_lines(text, reverse=reverse, unique=unique)
+
+
 def main() -> None:
     """Run the MCP server over stdio."""
     mcp.run()
