@@ -234,6 +234,12 @@ def sort_lines(text: str, reverse: bool = False, unique: bool = False) -> str:
     return tools.sort_lines(text, reverse=reverse, unique=unique)
 
 
+@mcp.tool()
+def count_substring(text: str, substring: str) -> int:
+    """Count non-overlapping occurrences of a substring in text."""
+    return tools.count_substring(text, substring)
+
+
 def main() -> None:
     """Run the MCP server over stdio."""
     mcp.run()

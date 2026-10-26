@@ -4,6 +4,7 @@ import re
 
 from devtools_mcp.tools import (
     char_count,
+    count_substring,
     dedent,
     from_base32,
     from_base64,
@@ -790,3 +791,54 @@ def test_sort_lines_with_trailing_newline() -> None:
     text = "zebra\napple\nbanana\n"
     result = sort_lines(text)
     assert result == "apple\nbanana\nzebra"
+
+
+def test_count_substring_basic() -> None:
+    assert count_substring("hello world", "o") == 2
+    assert count_substring("hello world", "l") == 3
+    assert count_substring("hello world", "world") == 1
+
+
+def test_count_substring_not_found() -> None:
+    assert count_substring("hello", "x") == 0
+    assert count_substring("hello world", "test") == 0
+    assert count_substring("abc", "xyz") == 0
+
+
+def test_count_substring_empty_substring() -> None:
+    assert count_substring("hello", "") == 0
+    assert count_substring("", "") == 0
+
+
+def test_count_substring_empty_text() -> None:
+    assert count_substring("", "a") == 0
+    assert count_substring("", "test") == 0
+
+
+def test_count_substring_single_occurrence() -> None:
+    assert count_substring("hello", "hello") == 1
+    assert count_substring("test string", "test") == 1
+
+
+def test_count_substring_multiple_occurrences() -> None:
+    assert count_substring("aaaa", "a") == 4
+    assert count_substring("abcabcabc", "abc") == 3
+    assert count_substring("hello hello hello", "hello") == 3
+
+
+def test_count_substring_overlapping() -> None:
+    # count_substring counts non-overlapping occurrences
+    assert count_substring("aaa", "aa") == 1
+    assert count_substring("aaaa", "aa") == 2
+
+
+def test_count_substring_case_sensitive() -> None:
+    assert count_substring("Hello HELLO hello", "hello") == 1
+    assert count_substring("Hello HELLO hello", "HELLO") == 1
+    assert count_substring("Hello HELLO hello", "Hello") == 1
+
+
+def test_count_substring_multichar() -> None:
+    assert count_substring("foo bar foo baz foo", "foo") == 3
+    assert count_substring("one::two::three", "::") == 2
+    assert count_substring("test---test---test", "---") == 2

@@ -299,3 +299,13 @@ def sort_lines(text: str, reverse: bool = False, unique: bool = False) -> str:
         lines = list(dict.fromkeys(lines))
     lines.sort(reverse=reverse)
     return "\n".join(lines)
+
+
+def count_substring(text: str, substring: str) -> int:
+    """Count non-overlapping occurrences of substring in text.
+
+    Returns 0 if substring is empty or not found.
+    """
+    if not substring:
+        return 0
+    return text.count(substring)
