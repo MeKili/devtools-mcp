@@ -309,3 +309,12 @@ def count_substring(text: str, substring: str) -> int:
     if not substring:
         return 0
     return text.count(substring)
+
+
+def capitalize_words(text: str) -> str:
+    """Capitalize the first letter of each word (title case).
+
+    Splits on whitespace and capitalizes the first letter of each word.
+    Non-letter characters are preserved.
+    """
+    return " ".join(word.capitalize() for word in text.split())

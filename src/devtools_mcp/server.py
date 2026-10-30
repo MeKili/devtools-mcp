@@ -240,6 +240,12 @@ def count_substring(text: str, substring: str) -> int:
     return tools.count_substring(text, substring)
 
 
+@mcp.tool()
+def capitalize_words(text: str) -> str:
+    """Capitalize the first letter of each word (title case)."""
+    return tools.capitalize_words(text)
+
+
 def main() -> None:
     """Run the MCP server over stdio."""
     mcp.run()

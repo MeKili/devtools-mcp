@@ -3,6 +3,7 @@
 import re
 
 from devtools_mcp.tools import (
+    capitalize_words,
     char_count,
     count_substring,
     dedent,
@@ -842,3 +843,44 @@ def test_count_substring_multichar() -> None:
     assert count_substring("foo bar foo baz foo", "foo") == 3
     assert count_substring("one::two::three", "::") == 2
     assert count_substring("test---test---test", "---") == 2
+
+
+def test_capitalize_words_basic() -> None:
+    assert capitalize_words("hello world") == "Hello World"
+    assert capitalize_words("python programming") == "Python Programming"
+    assert capitalize_words("a b c") == "A B C"
+
+
+def test_capitalize_words_single_word() -> None:
+    assert capitalize_words("hello") == "Hello"
+    assert capitalize_words("a") == "A"
+    assert capitalize_words("test") == "Test"
+
+
+def test_capitalize_words_already_capitalized() -> None:
+    assert capitalize_words("Hello World") == "Hello World"
+    assert capitalize_words("Already Capitalized") == "Already Capitalized"
+
+
+def test_capitalize_words_empty() -> None:
+    assert capitalize_words("") == ""
+
+
+def test_capitalize_words_mixed_case() -> None:
+    assert capitalize_words("hELLO wORLD") == "Hello World"
+    assert capitalize_words("pyThOn pRoGramMing") == "Python Programming"
+
+
+def test_capitalize_words_multiple_spaces() -> None:
+    assert capitalize_words("hello   world") == "Hello World"
+    assert capitalize_words("  hello  ") == "Hello"
+
+
+def test_capitalize_words_with_numbers() -> None:
+    assert capitalize_words("hello 123 world") == "Hello 123 World"
+    assert capitalize_words("test 42 cases") == "Test 42 Cases"
+
+
+def test_capitalize_words_special_chars() -> None:
+    assert capitalize_words("hello-world test") == "Hello-world Test"
+    assert capitalize_words("foo_bar baz") == "Foo_bar Baz"
