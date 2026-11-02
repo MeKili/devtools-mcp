@@ -246,6 +246,12 @@ def capitalize_words(text: str) -> str:
     return tools.capitalize_words(text)
 
 
+@mcp.tool()
+def indent(text: str, prefix: str = "    ") -> str:
+    """Add a prefix to every line of text (default: 4 spaces)."""
+    return tools.indent(text, prefix=prefix)
+
+
 def main() -> None:
     """Run the MCP server over stdio."""
     mcp.run()

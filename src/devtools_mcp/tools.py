@@ -318,3 +318,16 @@ def capitalize_words(text: str) -> str:
     Non-letter characters are preserved.
     """
     return " ".join(word.capitalize() for word in text.split())
+
+
+def indent(text: str, prefix: str = "    ") -> str:
+    """Add a prefix to every line of text.
+
+    If text is empty, returns empty string.
+    Default prefix is 4 spaces. Useful for adding indentation levels.
+    """
+    if not text:
+        return ""
+    lines = text.splitlines(keepends=True)
+    indented_lines = [prefix + line if line.strip() else line for line in lines]
+    return "".join(indented_lines)

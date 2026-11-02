@@ -12,6 +12,7 @@ from devtools_mcp.tools import (
     hex_to_text,
     html_escape,
     html_unescape,
+    indent,
     join_strings,
     json_minify,
     json_pretty_print,
@@ -884,3 +885,49 @@ def test_capitalize_words_with_numbers() -> None:
 def test_capitalize_words_special_chars() -> None:
     assert capitalize_words("hello-world test") == "Hello-world Test"
     assert capitalize_words("foo_bar baz") == "Foo_bar Baz"
+
+
+def test_indent_basic() -> None:
+    text = "hello\nworld"
+    result = indent(text)
+    assert result == "    hello\n    world"
+
+
+def test_indent_custom_prefix() -> None:
+    text = "line1\nline2"
+    result = indent(text, prefix="  ")
+    assert result == "  line1\n  line2"
+
+
+def test_indent_tab_prefix() -> None:
+    text = "code\nmore"
+    result = indent(text, prefix="\t")
+    assert result == "\tcode\n\tmore"
+
+
+def test_indent_empty_string() -> None:
+    assert indent("") == ""
+
+
+def test_indent_single_line() -> None:
+    assert indent("hello") == "    hello"
+
+
+def test_indent_with_trailing_newline() -> None:
+    text = "hello\nworld\n"
+    result = indent(text)
+    assert result == "    hello\n    world\n"
+
+
+def test_indent_with_empty_lines() -> None:
+    text = "line1\n\nline3"
+    result = indent(text)
+    assert result == "    line1\n\n    line3"
+
+
+def test_indent_multiple_indents() -> None:
+    text = "hello\nworld"
+    once = indent(text, prefix="  ")
+    twice = indent(once, prefix="  ")
+    assert once == "  hello\n  world"
+    assert twice == "    hello\n    world"
