@@ -252,6 +252,12 @@ def indent(text: str, prefix: str = "    ") -> str:
     return tools.indent(text, prefix=prefix)
 
 
+@mcp.tool()
+def truncate_string(text: str, max_length: int, suffix: str = "...") -> str:
+    """Truncate text to max_length characters, appending suffix if truncated."""
+    return tools.truncate_string(text, max_length, suffix=suffix)
+
+
 def main() -> None:
     """Run the MCP server over stdio."""
     mcp.run()

@@ -331,3 +331,15 @@ def indent(text: str, prefix: str = "    ") -> str:
     lines = text.splitlines(keepends=True)
     indented_lines = [prefix + line if line.strip() else line for line in lines]
     return "".join(indented_lines)
+
+
+def truncate_string(text: str, max_length: int, suffix: str = "...") -> str:
+    """Truncate text to max_length characters, appending suffix if truncated.
+
+    If text is shorter than max_length, returns text unchanged.
+    If truncation occurs, the suffix is appended after the truncated text
+    (total length may exceed max_length if suffix is longer than remaining space).
+    """
+    if len(text) <= max_length:
+        return text
+    return text[:max_length] + suffix

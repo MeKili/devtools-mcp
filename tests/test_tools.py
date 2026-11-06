@@ -36,6 +36,7 @@ from devtools_mcp.tools import (
     to_kebab_case,
     to_snake_case,
     trim_string,
+    truncate_string,
     uppercase,
     url_decode,
     url_encode,
@@ -931,3 +932,46 @@ def test_indent_multiple_indents() -> None:
     twice = indent(once, prefix="  ")
     assert once == "  hello\n  world"
     assert twice == "    hello\n    world"
+
+
+def test_truncate_string_basic() -> None:
+    assert truncate_string("hello world", 5) == "hello..."
+    assert truncate_string("hello world", 8) == "hello wo..."
+
+
+def test_truncate_string_no_truncation() -> None:
+    assert truncate_string("hello", 10) == "hello"
+    assert truncate_string("test", 4) == "test"
+    assert truncate_string("short", 100) == "short"
+
+
+def test_truncate_string_empty() -> None:
+    assert truncate_string("", 5) == ""
+    assert truncate_string("", 0) == ""
+
+
+def test_truncate_string_exact_length() -> None:
+    assert truncate_string("hello", 5) == "hello"
+    assert truncate_string("world", 5) == "world"
+
+
+def test_truncate_string_custom_suffix() -> None:
+    assert truncate_string("hello world", 5, suffix="...") == "hello..."
+    assert truncate_string("hello world", 5, suffix="--") == "hello--"
+    assert truncate_string("hello world", 5, suffix="") == "hello"
+
+
+def test_truncate_string_length_one() -> None:
+    assert truncate_string("hello", 1) == "h..."
+    assert truncate_string("test", 1) == "t..."
+
+
+def test_truncate_string_unicode() -> None:
+    assert truncate_string("café", 2) == "ca..."
+    assert truncate_string("hello🎉world", 5) == "hello..."
+
+
+def test_truncate_string_suffix_longer_than_remaining() -> None:
+    result = truncate_string("hello world", 5, suffix="-----")
+    assert result == "hello-----"
+    assert len(result) > 5
