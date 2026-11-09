@@ -343,3 +343,24 @@ def truncate_string(text: str, max_length: int, suffix: str = "...") -> str:
     if len(text) <= max_length:
         return text
     return text[:max_length] + suffix
+
+
+def remove_consecutive_duplicate_lines(text: str) -> str:
+    """Remove consecutive duplicate lines while preserving order.
+
+    Only removes lines that are exactly identical to the previous line.
+    Non-consecutive duplicates are preserved. Empty text returns empty string.
+    """
+    if not text:
+        return ""
+    lines = text.splitlines()
+    if not lines:
+        return ""
+    result = [lines[0]]
+    for line in lines[1:]:
+        if line != result[-1]:
+            result.append(line)
+    final = "\n".join(result)
+    if text.endswith("\n"):
+        final += "\n"
+    return final

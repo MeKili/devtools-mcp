@@ -258,6 +258,12 @@ def truncate_string(text: str, max_length: int, suffix: str = "...") -> str:
     return tools.truncate_string(text, max_length, suffix=suffix)
 
 
+@mcp.tool()
+def remove_consecutive_duplicate_lines(text: str) -> str:
+    """Remove consecutive duplicate lines while preserving order."""
+    return tools.remove_consecutive_duplicate_lines(text)
+
+
 def main() -> None:
     """Run the MCP server over stdio."""
     mcp.run()

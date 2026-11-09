@@ -21,6 +21,7 @@ from devtools_mcp.tools import (
     ltrim_string,
     md5_hex,
     regex_search,
+    remove_consecutive_duplicate_lines,
     reverse_string,
     rtrim_string,
     sha1_hex,
@@ -975,3 +976,59 @@ def test_truncate_string_suffix_longer_than_remaining() -> None:
     result = truncate_string("hello world", 5, suffix="-----")
     assert result == "hello-----"
     assert len(result) > 5
+
+
+def test_remove_consecutive_duplicate_lines_basic() -> None:
+    text = "apple\napple\nbanana\ncherry"
+    result = remove_consecutive_duplicate_lines(text)
+    assert result == "apple\nbanana\ncherry"
+
+
+def test_remove_consecutive_duplicate_lines_no_duplicates() -> None:
+    text = "apple\nbanana\ncherry"
+    result = remove_consecutive_duplicate_lines(text)
+    assert result == "apple\nbanana\ncherry"
+
+
+def test_remove_consecutive_duplicate_lines_all_duplicates() -> None:
+    text = "apple\napple\napple"
+    result = remove_consecutive_duplicate_lines(text)
+    assert result == "apple"
+
+
+def test_remove_consecutive_duplicate_lines_multiple_groups() -> None:
+    text = "line1\nline1\nline2\nline2\nline2\nline3"
+    result = remove_consecutive_duplicate_lines(text)
+    assert result == "line1\nline2\nline3"
+
+
+def test_remove_consecutive_duplicate_lines_non_consecutive_preserved() -> None:
+    text = "apple\nbanana\napple\ncherry\napple"
+    result = remove_consecutive_duplicate_lines(text)
+    assert result == "apple\nbanana\napple\ncherry\napple"
+
+
+def test_remove_consecutive_duplicate_lines_empty() -> None:
+    assert remove_consecutive_duplicate_lines("") == ""
+
+
+def test_remove_consecutive_duplicate_lines_single_line() -> None:
+    assert remove_consecutive_duplicate_lines("hello") == "hello"
+
+
+def test_remove_consecutive_duplicate_lines_empty_lines() -> None:
+    text = "line1\n\n\nline2"
+    result = remove_consecutive_duplicate_lines(text)
+    assert result == "line1\n\nline2"
+
+
+def test_remove_consecutive_duplicate_lines_trailing_newline() -> None:
+    text = "apple\napple\nbanana\n"
+    result = remove_consecutive_duplicate_lines(text)
+    assert result == "apple\nbanana\n"
+
+
+def test_remove_consecutive_duplicate_lines_all_empty_lines() -> None:
+    text = "\n\n\n"
+    result = remove_consecutive_duplicate_lines(text)
+    assert result == "\n"
