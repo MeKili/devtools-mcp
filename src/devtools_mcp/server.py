@@ -122,6 +122,18 @@ def hex_to_text(hex_str: str) -> str:
 
 
 @mcp.tool()
+def text_to_binary(text: str) -> str:
+    """Convert text (UTF-8) to binary representation (0s and 1s)."""
+    return tools.text_to_binary(text)
+
+
+@mcp.tool()
+def binary_to_text(binary_str: str) -> str:
+    """Convert binary string back to UTF-8 text."""
+    return tools.binary_to_text(binary_str)
+
+
+@mcp.tool()
 def to_snake_case(text: str) -> str:
     """Convert text to snake_case (lowercase with underscores)."""
     return tools.to_snake_case(text)

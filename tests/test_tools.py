@@ -3,6 +3,7 @@
 import re
 
 from devtools_mcp.tools import (
+    binary_to_text,
     capitalize_words,
     char_count,
     count_substring,
@@ -30,6 +31,7 @@ from devtools_mcp.tools import (
     sort_lines,
     split_string,
     string_replace,
+    text_to_binary,
     text_to_hex,
     to_base32,
     to_base64,
@@ -269,6 +271,62 @@ def test_hex_to_text_invalid() -> None:
 
     with pytest.raises(ValueError):
         hex_to_text("not_hex_at_all")
+
+
+def test_text_to_binary_basic() -> None:
+    assert text_to_binary("a") == "01100001"
+    assert text_to_binary("abc") == "01100001 01100010 01100011"
+    assert text_to_binary("") == ""
+
+
+def test_text_to_binary_hello() -> None:
+    result = text_to_binary("hello")
+    assert result == "01101000 01100101 01101100 01101100 01101111"
+
+
+def test_text_to_binary_utf8() -> None:
+    result = text_to_binary("café")
+    assert result == "01100011 01100001 01100110 11000011 10101001"
+
+
+def test_binary_to_text_basic() -> None:
+    assert binary_to_text("01100001") == "a"
+    assert binary_to_text("01100001 01100010 01100011") == "abc"
+    assert binary_to_text("") == ""
+
+
+def test_binary_to_text_hello() -> None:
+    result = binary_to_text("01101000 01100101 01101100 01101100 01101111")
+    assert result == "hello"
+
+
+def test_binary_to_text_utf8() -> None:
+    result = binary_to_text("01100011 01100001 01100110 11000011 10101001")
+    assert result == "café"
+
+
+def test_text_binary_roundtrip() -> None:
+    text = "hello world 123!@#"
+    assert binary_to_text(text_to_binary(text)) == text
+
+
+def test_text_binary_utf8_roundtrip() -> None:
+    text = "café naïve Zürich 🎉"
+    assert binary_to_text(text_to_binary(text)) == text
+
+
+def test_binary_to_text_invalid() -> None:
+    import pytest
+
+    with pytest.raises(ValueError):
+        binary_to_text("invalid")
+
+
+def test_binary_to_text_invalid_bit_string() -> None:
+    import pytest
+
+    with pytest.raises(ValueError):
+        binary_to_text("11111111 invalid 00000000")
 
 
 def test_to_snake_case_camel() -> None:

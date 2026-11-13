@@ -149,6 +149,31 @@ def hex_to_text(hex_str: str) -> str:
     return bytes.fromhex(hex_str).decode("utf-8")
 
 
+def text_to_binary(text: str) -> str:
+    """Convert text (UTF-8) to binary representation (0s and 1s).
+
+    Each byte is represented as an 8-bit binary string with bits separated by spaces.
+    """
+    binary_parts = [format(byte, "08b") for byte in text.encode("utf-8")]
+    return " ".join(binary_parts)
+
+
+def binary_to_text(binary_str: str) -> str:
+    """Convert binary string back to UTF-8 text.
+
+    Expects space-separated 8-bit binary strings. Raises ValueError if invalid.
+    """
+    binary_str = binary_str.strip()
+    if not binary_str:
+        return ""
+    try:
+        byte_strs = binary_str.split()
+        bytes_data = bytes(int(b, 2) for b in byte_strs)
+        return bytes_data.decode("utf-8")
+    except (ValueError, UnicodeDecodeError) as e:
+        raise ValueError(f"Invalid binary string: {e}") from e
+
+
 def to_snake_case(text: str) -> str:
     """Convert text to snake_case (lowercase with underscores).
 
