@@ -21,6 +21,7 @@ from devtools_mcp.tools import (
     lowercase,
     ltrim_string,
     md5_hex,
+    normalize_whitespace,
     regex_search,
     remove_consecutive_duplicate_lines,
     reverse_string,
@@ -1090,3 +1091,35 @@ def test_remove_consecutive_duplicate_lines_all_empty_lines() -> None:
     text = "\n\n\n"
     result = remove_consecutive_duplicate_lines(text)
     assert result == "\n"
+
+
+def test_normalize_whitespace_multiple_spaces() -> None:
+    assert normalize_whitespace("hello   world") == "hello world"
+
+
+def test_normalize_whitespace_tabs_and_spaces() -> None:
+    assert normalize_whitespace("hello\t\t  world") == "hello world"
+
+
+def test_normalize_whitespace_multiple_newlines() -> None:
+    text = "line1\n\n\nline2"
+    result = normalize_whitespace(text)
+    assert result == "line1\nline2"
+
+
+def test_normalize_whitespace_leading_trailing() -> None:
+    assert normalize_whitespace("  hello  world  ") == "hello world"
+
+
+def test_normalize_whitespace_empty() -> None:
+    assert normalize_whitespace("") == ""
+
+
+def test_normalize_whitespace_only_whitespace() -> None:
+    assert normalize_whitespace("   \n\n   ") == ""
+
+
+def test_normalize_whitespace_multiline_with_spaces() -> None:
+    text = "line1  with  spaces\n\nline2\t\twith\ttabs"
+    result = normalize_whitespace(text)
+    assert result == "line1 with spaces\nline2 with tabs"

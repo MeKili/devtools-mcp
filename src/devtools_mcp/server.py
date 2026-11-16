@@ -276,6 +276,12 @@ def remove_consecutive_duplicate_lines(text: str) -> str:
     return tools.remove_consecutive_duplicate_lines(text)
 
 
+@mcp.tool()
+def normalize_whitespace(text: str) -> str:
+    """Collapse multiple consecutive spaces and newlines into single ones."""
+    return tools.normalize_whitespace(text)
+
+
 def main() -> None:
     """Run the MCP server over stdio."""
     mcp.run()

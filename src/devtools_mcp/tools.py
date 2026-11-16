@@ -389,3 +389,16 @@ def remove_consecutive_duplicate_lines(text: str) -> str:
     if text.endswith("\n"):
         final += "\n"
     return final
+
+
+def normalize_whitespace(text: str) -> str:
+    """Collapse multiple consecutive spaces and newlines into single ones.
+
+    Converts all whitespace sequences to single spaces on the same line,
+    and multiple newlines to single newlines. Leading/trailing whitespace is trimmed.
+    """
+    lines = text.split("\n")
+    normalized_lines = [" ".join(line.split()) for line in lines]
+    result = "\n".join(normalized_lines)
+    result = re.sub(r"\n\n+", "\n", result)
+    return result.strip()
