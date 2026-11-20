@@ -402,3 +402,27 @@ def normalize_whitespace(text: str) -> str:
     result = "\n".join(normalized_lines)
     result = re.sub(r"\n\n+", "\n", result)
     return result.strip()
+
+
+def levenshtein_distance(text1: str, text2: str) -> int:
+    """Calculate the Levenshtein distance (edit distance) between two strings.
+
+    Returns the minimum number of single-character edits (insertions, deletions,
+    substitutions) needed to transform text1 into text2.
+    """
+    m, n = len(text1), len(text2)
+    if m == 0:
+        return n
+    if n == 0:
+        return m
+
+    prev = list(range(n + 1))
+    for i in range(1, m + 1):
+        curr = [i] + [0] * n
+        for j in range(1, n + 1):
+            if text1[i - 1] == text2[j - 1]:
+                curr[j] = prev[j - 1]
+            else:
+                curr[j] = 1 + min(prev[j], curr[j - 1], prev[j - 1])
+        prev = curr
+    return prev[n]

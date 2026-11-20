@@ -17,6 +17,7 @@ from devtools_mcp.tools import (
     join_strings,
     json_minify,
     json_pretty_print,
+    levenshtein_distance,
     line_count,
     lowercase,
     ltrim_string,
@@ -1123,3 +1124,50 @@ def test_normalize_whitespace_multiline_with_spaces() -> None:
     text = "line1  with  spaces\n\nline2\t\twith\ttabs"
     result = normalize_whitespace(text)
     assert result == "line1 with spaces\nline2 with tabs"
+
+
+def test_levenshtein_distance_identical() -> None:
+    assert levenshtein_distance("hello", "hello") == 0
+    assert levenshtein_distance("", "") == 0
+    assert levenshtein_distance("abc", "abc") == 0
+
+
+def test_levenshtein_distance_one_empty() -> None:
+    assert levenshtein_distance("hello", "") == 5
+    assert levenshtein_distance("", "world") == 5
+    assert levenshtein_distance("a", "") == 1
+    assert levenshtein_distance("", "b") == 1
+
+
+def test_levenshtein_distance_substitution() -> None:
+    assert levenshtein_distance("cat", "bat") == 1
+    assert levenshtein_distance("hello", "hallo") == 1
+    assert levenshtein_distance("abc", "adc") == 1
+
+
+def test_levenshtein_distance_insertion() -> None:
+    assert levenshtein_distance("cat", "cats") == 1
+    assert levenshtein_distance("hello", "hellos") == 1
+    assert levenshtein_distance("abc", "abcd") == 1
+
+
+def test_levenshtein_distance_deletion() -> None:
+    assert levenshtein_distance("cats", "cat") == 1
+    assert levenshtein_distance("hellos", "hello") == 1
+    assert levenshtein_distance("abcd", "abc") == 1
+
+
+def test_levenshtein_distance_multiple_edits() -> None:
+    assert levenshtein_distance("kitten", "sitting") == 3
+    assert levenshtein_distance("saturday", "sunday") == 3
+    assert levenshtein_distance("abc", "def") == 3
+
+
+def test_levenshtein_distance_case_sensitive() -> None:
+    assert levenshtein_distance("Hello", "hello") == 1
+    assert levenshtein_distance("ABC", "abc") == 3
+
+
+def test_levenshtein_distance_unicode() -> None:
+    assert levenshtein_distance("café", "cafe") == 1
+    assert levenshtein_distance("naïve", "naive") == 1

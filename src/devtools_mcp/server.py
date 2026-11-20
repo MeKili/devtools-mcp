@@ -282,6 +282,12 @@ def normalize_whitespace(text: str) -> str:
     return tools.normalize_whitespace(text)
 
 
+@mcp.tool()
+def levenshtein_distance(text1: str, text2: str) -> int:
+    """Calculate the Levenshtein distance (edit distance) between two strings."""
+    return tools.levenshtein_distance(text1, text2)
+
+
 def main() -> None:
     """Run the MCP server over stdio."""
     mcp.run()
