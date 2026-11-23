@@ -39,6 +39,7 @@ from devtools_mcp.tools import (
     to_base64,
     to_camel_case,
     to_kebab_case,
+    to_pascal_case,
     to_snake_case,
     trim_string,
     truncate_string,
@@ -390,6 +391,31 @@ def test_to_kebab_case_spaces() -> None:
 def test_to_kebab_case_mixed() -> None:
     assert to_kebab_case("hello_world-test") == "hello-world-test"
     assert to_kebab_case("myVar_name test") == "my-var-name-test"
+
+
+def test_to_pascal_case_snake() -> None:
+    assert to_pascal_case("hello_world") == "HelloWorld"
+    assert to_pascal_case("my_variable_name") == "MyVariableName"
+
+
+def test_to_pascal_case_kebab() -> None:
+    assert to_pascal_case("hello-world") == "HelloWorld"
+    assert to_pascal_case("my-variable-name") == "MyVariableName"
+
+
+def test_to_pascal_case_camel() -> None:
+    assert to_pascal_case("helloWorld") == "HelloWorld"
+    assert to_pascal_case("myVariableName") == "MyVariableName"
+
+
+def test_to_pascal_case_spaces() -> None:
+    assert to_pascal_case("hello world") == "HelloWorld"
+    assert to_pascal_case("my variable name") == "MyVariableName"
+
+
+def test_to_pascal_case_mixed() -> None:
+    assert to_pascal_case("hello_world-test") == "HelloWorldTest"
+    assert to_pascal_case("myVar_name test") == "MyVarNameTest"
 
 
 def test_regex_search_basic() -> None:

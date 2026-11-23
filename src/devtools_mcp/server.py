@@ -152,6 +152,12 @@ def to_kebab_case(text: str) -> str:
 
 
 @mcp.tool()
+def to_pascal_case(text: str) -> str:
+    """Convert text to PascalCase (capitalize first letter, then camelCase)."""
+    return tools.to_pascal_case(text)
+
+
+@mcp.tool()
 def regex_search(text: str, pattern: str) -> list[tools.RegexMatch]:
     """Search for all regex matches in text.
 

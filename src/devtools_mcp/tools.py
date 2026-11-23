@@ -208,6 +208,19 @@ def to_kebab_case(text: str) -> str:
     return s3.lower()
 
 
+def to_pascal_case(text: str) -> str:
+    """Convert text to PascalCase (capitalize first letter, then camelCase).
+
+    Handles snake_case, kebab-case, camelCase, space-separated, and mixed input.
+    """
+    s1 = re.sub("(.)([A-Z][a-z]+)", r"\1-\2", text)
+    s2 = re.sub("([a-z0-9])([A-Z])", r"\1-\2", s1)
+    components = re.split(r"[-_\s]+", s2)
+    if not components:
+        return ""
+    return "".join(x.title() for x in components if x)
+
+
 def regex_search(text: str, pattern: str) -> list[RegexMatch]:
     """Search for all regex matches in text.
 
