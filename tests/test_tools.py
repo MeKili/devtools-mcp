@@ -7,6 +7,7 @@ from devtools_mcp.tools import (
     capitalize_words,
     char_count,
     count_substring,
+    crc32_hex,
     dedent,
     from_base32,
     from_base64,
@@ -106,6 +107,24 @@ def test_sha1_hex_known_value() -> None:
 def test_sha256_hex_known_value() -> None:
     # Known SHA-256 digest of the string "abc".
     assert sha256_hex("abc") == "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad"
+
+
+def test_crc32_hex_known_value() -> None:
+    # Known CRC32 checksum of the string "abc".
+    assert crc32_hex("abc") == "352441c2"
+
+
+def test_crc32_hex_different_strings() -> None:
+    assert crc32_hex("") == "00000000"
+    assert crc32_hex("hello") == "3610a686"
+    assert crc32_hex("hello world") == "0d4a1185"
+
+
+def test_crc32_hex_format() -> None:
+    # Verify that output is always 8 lowercase hex digits.
+    result = crc32_hex("test")
+    assert len(result) == 8
+    assert all(c in "0123456789abcdef" for c in result)
 
 
 def test_base64_roundtrip() -> None:

@@ -50,6 +50,12 @@ def sha256_hex(text: str) -> str:
 
 
 @mcp.tool()
+def crc32_hex(text: str) -> str:
+    """Return the hex CRC32 checksum of ``text``."""
+    return tools.crc32_hex(text)
+
+
+@mcp.tool()
 def to_base64(text: str) -> str:
     """Base64-encode ``text``."""
     return tools.to_base64(text)

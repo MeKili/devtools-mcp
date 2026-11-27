@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import base64
+import binascii
 import hashlib
 import html
 import json
@@ -55,6 +56,12 @@ def sha1_hex(text: str) -> str:
 def sha256_hex(text: str) -> str:
     """Return the hex SHA-256 digest of ``text`` (encoded as UTF-8)."""
     return hashlib.sha256(text.encode("utf-8")).hexdigest()
+
+
+def crc32_hex(text: str) -> str:
+    """Return the hex CRC32 checksum of ``text`` (encoded as UTF-8)."""
+    checksum = binascii.crc32(text.encode("utf-8")) & 0xFFFFFFFF
+    return f"{checksum:08x}"
 
 
 def to_base64(text: str) -> str:
